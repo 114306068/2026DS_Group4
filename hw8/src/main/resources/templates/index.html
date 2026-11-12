@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Boogle Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f6ee; display: flex; justify-content: center; padding-top: 50px; }
+        .container { width: 700px; text-align: center; }
+        h1 { font-size: 42px; color: #5c4033; margin-bottom: 20px; }
+        .search-bar { display: flex; justify-content: center; margin-bottom: 30px; }
+        input[type="text"] { width: 70%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 6px 0 0 6px; }
+        button { padding: 12px 24px; font-size: 16px; background-color: #fff; border: 1px solid #ccc; border-left: none; border-radius: 0 6px 6px 0; cursor: pointer; }
+        button:hover { background-color: #eee; }
+        .result-item { margin-bottom: 20px; }
+        .result-item a { font-size: 18px; color: #1a0dab; text-decoration: underline; }
+        .result-url { font-size: 14px; color: #333; margin-top: 4px; word-break: break-all; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Boogle</h1>
+
+    <form action="/" method="get" class="search-bar">
+        <input type="text" name="query" th:value="${query}" placeholder="輸入搜尋關鍵字..." required>
+        <button type="submit">搜尋</button>
+    </form>
+
+    <!-- 當使用者有執行搜尋時才顯示此區塊 -->
+    <div th:if="${results != null}">
+        <!-- 有找到結果 -->
+        <div th:if="${!results.isEmpty()}">
+            <div class="result-item" th:each="entry : ${results}">
+                <a th:href="${entry.value}" th:text="${entry.key}" target="_blank">網頁標題</a>
+                <div class="result-url" th:text="${entry.value}">https://example.com</div>
+            </div>
+        </div>
+
+        <!-- 查無結果的提示處理 -->
+        <p th:if="${results.isEmpty()}" style="color: #666; font-size: 18px;">
+            沒有找到與「<span th:text="${query}"></span>」相關的結果。
+        </p>
+    </div>
+</div>
+</body>
+</html>
